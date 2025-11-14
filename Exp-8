@@ -1,0 +1,56 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+void main()
+{
+    int frame_count, simulate_loss, i, ack, send_seq = 0;
+    char frames[10][100];
+    clrscr();
+
+    printf("Enter number of frames to send: ");
+    scanf("%d", &frame_count);
+
+    for (i = 0; i < frame_count; i++)
+    {
+        printf("Enter data for frame %d: ", i);
+        scanf("%s", frames[i]);
+    }
+
+    i = 0;
+
+    while (i < frame_count)
+    {
+        printf("\n[Sender] Sending Frame %d: \"%s\" with Seq #%d\n", i, frames[i], send_seq);
+        sleep(1); // simulate delay
+
+        // Simulate receiver behavior
+        simulate_loss = rand() % 5; // 0 to 4 chance of ACK loss
+
+        if (simulate_loss == 0)
+        {
+            printf("[Sender] ACK lost or corrupted! Resending Frame %d...\n", i);
+            continue;
+        }
+
+        // Receiver receives and sends correct ACK
+        ack = send_seq;
+        printf("[Receiver] Received Frame %d. Sending ACK #%d\n", i, ack);
+        sleep(1);
+
+        // Sender receives correct ACK
+        if (ack == send_seq)
+        {
+            printf("[Sender] Received ACK #%d. Proceeding to next frame...\n", ack);
+            send_seq = 1 - send_seq; // toggle between 0 and 1
+            i++; // move to next frame
+        }
+        else
+        {
+            printf("[Sender] Wrong ACK! Resending Frame %d...\n", i);
+        }
+    }
+
+    printf("\nAll frames sent successfully.\n");
+    getch();
+}
