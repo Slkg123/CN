@@ -1,0 +1,87 @@
+//Bitstuffing
+#include<stdio.h>
+void main(){
+   int i=0,count=0;
+   char databits[80];
+   clrscr();
+   printf("\nEnter Data bits: ");
+   scanf("%s",databits);
+   printf("\nData bits before BitStuffing: %s",databits);
+   printf("\nData bits after stuffing: ");
+   for(i=0;i<strlen(databits);i++){
+      if(databits[i]=='1')
+	  count++;
+      else
+	  count=0;
+      printf("%c",databits[i]);
+      if(count==5){
+	  printf("0");
+	  count=0;
+      }
+   }
+   getch();
+}
+
+
+
+
+//char stuffing
+#include<stdio.h>
+#include<conio.h>
+#include<string.h>
+void main()
+{
+   int j,l,m,c,k;
+   char a[50],b[50];
+   clrscr();
+   printf("\nEnter the string: ");
+   scanf("%s",&a);
+   strcpy(b,"DLESTX");
+   m=strlen(a);
+   for(j=0;j<m;j++){
+      if(a[j]=='d'){
+	if(a[j+1] == 'l'){
+	  if(a[j+2]=='e'){
+	     c=j+2;
+	     for(l=0;l<3;l++){
+		for(k=m;k>c;k--){
+		    a[k]=a[k-1];
+		}
+		m++;
+		a[m]='\0';
+		c=c+1;
+	     }
+	     a[j+3]='d';
+	     a[j+4]='l';
+	     a[j+5]='e';
+	     a[m]='\0';
+	     j+=5;
+	     }
+	  }
+	}
+	j++;
+      }
+      strcat(b,a);
+      strcat(b,"DLEETX");
+      printf("\n%s",b);
+      printf("\nReceiver Side: ");
+      m=strlen(a);
+      for(j=0;j<m;j++){
+	 if(a[j]=='d'){
+	   if(a[j+1]=='l'){
+	      if(a[j+2]=='e'){
+		c=j;
+		for(l=0;l<3;l++){
+		   for(k=c;k<m;k++)
+		       a[k]=a[k+1];
+		   }
+		   c++;
+		}
+		j=c;
+	      }
+	   }
+	   j++;
+	 }
+	 printf("\n%s",a);
+	 getch();
+      }
