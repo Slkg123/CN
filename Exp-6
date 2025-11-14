@@ -1,0 +1,43 @@
+#include <stdio.h>
+
+void main()
+{
+    int window_size, total_frames;
+    int sent = 0, ack, i;
+    clrscr();
+
+    // Input from user
+    printf("Enter window size: ");
+    scanf("%d", &window_size);
+
+    printf("Enter total number of frames to send: ");
+    scanf("%d", &total_frames);
+
+    while (sent < total_frames)
+    {
+        // Send frames in the current window
+        for (i = 0; i < window_size && sent < total_frames; i++)
+        {
+            printf("Frame %d has been transmitted.\n", sent);
+            sent++;
+        }
+
+        // Receive ACK
+        printf("Enter last ACK received (0 to %d): ", total_frames - 1);
+        scanf("%d", &ack);
+
+        // If ACK is valid, move window; else go back
+        if (ack >= 0 && ack < total_frames)
+            sent = ack + 1;
+        else
+        {
+            printf("Invalid ACK. Resending current window.\n");
+            sent -= i; // Go back to start of current window
+        }
+
+        printf("\n");
+    }
+
+    printf("All frames sent and acknowledged.\n");
+    getch();
+}
